@@ -6,7 +6,7 @@ import (
     "os/signal"
 )
 
-func HandleInterruptSignals(message string) {
+func HandleInterruptSignal(message string) {
     signals := make(chan os.Signal, 1)
     signal.Notify(signals, os.Interrupt)
 
