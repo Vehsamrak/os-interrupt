@@ -25,6 +25,6 @@ func HandleInterruptSignal(callback func()) {
 // Print message on SIGINT (Ctrl+C) before exit
 func PrintMessageOnInterruptSignal(message string) {
 	HandleInterruptSignal(func() {
-		fmt.Println("\n", message)
+		fmt.Printf("\n%v\n", message)
 	})
 }
