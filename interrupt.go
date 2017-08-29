@@ -5,6 +5,7 @@ import (
     "os/signal"
 )
 
+// Handle SIGINT (Ctrl+C) and call callback function before exit
 func HandleInterruptSignal(callback func()) {
     signals := make(chan os.Signal, 1)
     signal.Notify(signals, os.Interrupt)
