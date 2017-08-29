@@ -1,12 +1,11 @@
-package os_interrupt
+package osinterrupt
 
 import (
-    "fmt"
     "os"
     "os/signal"
 )
 
-func HandleInterruptSignal(message string) {
+func HandleInterruptSignal(callback func()) {
     signals := make(chan os.Signal, 1)
     signal.Notify(signals, os.Interrupt)
 
@@ -14,7 +13,7 @@ func HandleInterruptSignal(message string) {
         for osSignal := range signals {
             // if signal is ^C (SIGINT)
             if osSignal.String() == "interrupt" {
-                fmt.Println(message)
+                callback()
                 os.Exit(0)
             }
         }
