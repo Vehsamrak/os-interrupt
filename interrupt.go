@@ -4,6 +4,7 @@ import (
     "fmt"
     "os"
     "os/signal"
+    "syscall"
 )
 
 // Handle SIGINT (Ctrl+C) and call callback function before exit
@@ -27,4 +28,22 @@ func PrintMessageOnInterruptSignal(message string) {
     HandleInterruptSignal(func() {
         fmt.Printf("\n%v\n", message)
     })
+}
+
+// Handle signal and call callback function before exit
+func HandleSignal(signalCode syscall.Signal, callback func()) {
+    signals := make(chan os.Signal, signalCode)
+    signal.Notify(signals, os.Interrupt)
+
+    go func() {
+        for range signals {
+            callback()
+            os.Exit(0)
+        }
+    }()
+}
+
+// Handle SIGTERM and call callback function before exit
+func HandleTerminateSignal(callback func()) {
+    HandleSignal(syscall.SIGTERM, callback)
 }
