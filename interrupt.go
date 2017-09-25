@@ -32,8 +32,8 @@ func PrintMessageOnInterruptSignal(message string) {
 
 // Handle signal and call callback function before exit
 func HandleSignal(signalCode syscall.Signal, callback func()) {
-    signals := make(chan os.Signal, signalCode)
-    signal.Notify(signals, os.Interrupt)
+    signals := make(chan os.Signal, 1)
+    signal.Notify(signals, signalCode)
 
     go func() {
         for range signals {
